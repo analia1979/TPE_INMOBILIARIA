@@ -19,7 +19,7 @@ class InmuebleModel {
     }
 
     /**
-     * Retorna una tarea según el id pasado.
+     * Retorna una inmuble según el id pasado.
      */
     function get($idInmueble) {
         $query = $this->db->prepare('SELECT * FROM inmueble WHERE id_inmueble = ?');
@@ -43,7 +43,7 @@ class InmuebleModel {
      */
     function delete($idInmueble) {
         $query = $this->db->prepare('DELETE FROM inmueble WHERE id_inmueble = ?');
-        $query->execute([$idInmueble]); 
+        $query->execute([$idInmueble]);
     }
 
     /**
@@ -52,6 +52,12 @@ class InmuebleModel {
     function end($idInmueble) {
         $query = $this->db->prepare('UPDATE inmueble SET vendida = 1 WHERE id_inmueble = ?');
         $query->execute([$idInmueble]);
+    }
+    function getInmueblePorCategoria($idCategoria){
+
+        $query = $this->db->prepare('SELECT * FROM inmueble join categoria where idCategoria=id_Categoria and idCategoria=?');
+        $query->execute(array($idCategoria));
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 
   

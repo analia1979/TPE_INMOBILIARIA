@@ -4,17 +4,25 @@
 
     // si no viene una "action", definimos una por defecto
     if ($_GET['action'] == '')
-        $_GET['action'] = 'ver';
+        $_GET['action'] = 'inicio';
 
     // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
     $partesURL = explode('/', $_GET['action']);
     
     switch ($partesURL[0]) {
-        case 'ver':
+        case 'inicio':
             $controller = new inmuebleController();
             $controller->showInmuebles();
             break;
-        case 'inmueble':
+        case 'loginAdmin':
+            $controller = new administradorController;
+            $controller ->mostrarLogin();
+
+            case 'inmueblescategoria':
+            $controller= new inmuebleController();
+            $controller->showInmueblesCategorias($partesURL[1]);
+            break;
+            case 'inmueble':
             $controller = new inmuebleController();
             $controller->showInmueble($partesURL[1]);
             break;
