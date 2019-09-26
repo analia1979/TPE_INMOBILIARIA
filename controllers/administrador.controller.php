@@ -19,9 +19,7 @@ class administradorController {
      * Muestra la lista de inmuebles.
      */
     public function mostrarLogin(){
-
         
-
     }
      public function showInmuebles() {
         // obtengo inmuebles del model

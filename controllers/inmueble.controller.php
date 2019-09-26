@@ -18,14 +18,14 @@ class inmuebleController {
     /**
      * Muestra la lista de inmuebles.
      */
-    public function showInmuebles() {
+     public function showInicio() {
         // obtengo inmuebles del model
         $inmuebles = $this->model->getAll();
         $categorias = $this->modelCategoria ->getAll();
-
         // se las paso a la vista
-        $this->view->showInmuebles($inmuebles, $categorias);
+        $this->view->showInicio($inmuebles, $categorias);
     }
+    
     public function showInmuebleCategoria($idCategoria){
             //obtengo los inmueble por categoria
             $inmuebles= $this->model->getInmueblePorCategoria($idCategoria);
@@ -41,6 +41,13 @@ class inmuebleController {
             $this->view->showError('El inmueble no existe');
 
       
+    }
+     public function showInmuebles() {
+        // obtengo inmuebles del model
+        $inmuebles = $this->model->getAll();
+        // se las paso a la vista
+        $categorias = $this->modelCategoria ->getAll();
+        $this->view->showInmuebles($inmuebles, $categorias);
     }
 
     

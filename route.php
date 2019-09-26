@@ -2,6 +2,9 @@
     require_once('controllers/inmueble.controller.php');
     require_once('controllers/categorias.controller.php');
 
+    define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"].dirname($_SERVER["PHP_SELF"]).'/');
+    define("INICIO", BASE_URL . 'inicio');
+
     // si no viene una "action", definimos una por defecto
     if ($_GET['action'] == '')
         $_GET['action'] = 'inicio';
@@ -11,6 +14,10 @@
     
     switch ($partesURL[0]) {
         case 'inicio':
+            $controller = new inmuebleController();
+            $controller->showInicio();
+            break;
+         case 'propiedades':
             $controller = new inmuebleController();
             $controller->showInmuebles();
             break;

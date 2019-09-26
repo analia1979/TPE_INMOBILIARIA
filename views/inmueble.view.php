@@ -8,7 +8,7 @@ class inmuebleView {
    $smarty->assign('titulo', "Inmobiliaria");
    $smarty->assign('inmuebles', $inmuebles);
    $smarty->assign('categorias', $categorias);
-   $smarty->display('template/inicio.tpl');
+   $smarty->display('template/mostrarInmuebles.tpl');
      
     }
 
@@ -18,14 +18,13 @@ class inmuebleView {
     }
 
     /**
-     * Construye el html que permite visualizar el detalle de un inmueble determinada.
+     * Construye el html que permite visualizar el detalle de un inmueble determinado.
      */
     function showInmueble($inmueble) {
-
         $smarty = new Smarty();
         $smarty->assign('titulo', "Inmobiliaria");
         $smarty->assign('inmueble', $inmueble);
-         $smarty->display('template/mostrarInmueble.tpl');
+        $smarty->display('template/mostrarInmueble.tpl');
     }
         /**Construye el template que permite visualizar todos los inmubles de un determinada categoria */
    /**  public function showInmueblePorCategoria($inmuebles){
@@ -44,10 +43,12 @@ class inmuebleView {
           
          }
 
-         public function showHome() {
+         public function showInicio($inmuebles,$categorias) {
             $smarty = new Smarty();
             $smarty->assign('titulo', "Inmobiliaria");
-            $smarty->display('template/mostrarHome.tpl');
+            $smarty->assign('inmuebles', $inmuebles);
+            $smarty->assign('categorias', $categorias);
+            $smarty->display('template/inicio.tpl');
               
              }
 }
