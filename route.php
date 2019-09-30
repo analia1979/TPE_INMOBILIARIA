@@ -4,6 +4,8 @@
     require_once('controllers/login.controller.php');
     require_once('controllers/usuario.controller.php');
 
+   
+
     // si no viene una "action", definimos una por defecto
     if ($_GET['action'] == '')
         $_GET['action'] = 'inicio';
@@ -20,6 +22,10 @@
     switch ($partesURL[0]) {
 
         case 'inicio':
+            $controller = new inmuebleController();
+            $controller->showInicio();
+            break;
+         case 'propiedades':
             $controller = new inmuebleController();
             $controller->showInmuebles();
             break;
