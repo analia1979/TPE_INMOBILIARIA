@@ -1,4 +1,4 @@
-{include file='template/head.tpl'}
+{include file='template/header.tpl'}
       
     <form action="ver" method="POST">
 <button name="ver" class="btn btn-primary">Volver</button>

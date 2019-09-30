@@ -1,28 +1,46 @@
-<?php
+    <?php
     require_once('controllers/inmueble.controller.php');
     require_once('controllers/categorias.controller.php');
+    require_once('controllers/login.controller.php');
+    require_once('controllers/usuario.controller.php');
 
     // si no viene una "action", definimos una por defecto
     if ($_GET['action'] == '')
         $_GET['action'] = 'inicio';
 
+    // CONSTANTES PARA RUTEO
+    define("BASE_URL", 'http://' . $_SERVER["SERVER_NAME"] . ':' . $_SERVER["SERVER_PORT"] . dirname($_SERVER["PHP_SELF"]) . '/');
+
+    define("LOGIN", BASE_URL . 'login');
+    define("VER", BASE_URL . 'inicio');
+
     // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
     $partesURL = explode('/', $_GET['action']);
-    
+
     switch ($partesURL[0]) {
+
         case 'inicio':
             $controller = new inmuebleController();
             $controller->showInmuebles();
             break;
-        case 'loginAdmin':
-            $controller = new administradorController;
-            $controller ->mostrarLogin();
-
-            case 'inmueblescategoria':
-            $controller= new inmuebleController();
-            $controller->showInmueblesCategorias($partesURL[1]);
+        case 'admin':
+            $controller = new usuarioController();
+            $controller->showInmuebles();
             break;
-            case 'inmueble':
+        case 'login':
+            $controller = new loginController;
+            $controller->mostrarLogin();
+            break;
+        case 'verificarUsuario':
+            $controller = new loginController;
+            $controller->verificarUsuario();
+            break;
+        case 'inmueblescategoria':
+            $controller = new inmuebleController();
+            $controller->showInmueblesCategoria($partesURL[1]);
+            break;
+
+        case 'inmueble':
             $controller = new inmuebleController();
             $controller->showInmueble($partesURL[1]);
             break;
@@ -62,5 +80,3 @@
             echo "<h1>Error 404 - Page not found </h1>";
             break;
     }
-    
-?>
