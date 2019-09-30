@@ -3,14 +3,21 @@ require('libs/Smarty.class.php');
 
 class inmuebleView
 {
+    private $smarty;
+    public function __construct()
+    {
+        $this->smarty = new Smarty();
+        $this->smarty->assign('basehref', BASE_URL);
+    }
+
 
     public function showInmuebles($inmuebles, $categorias)
     {
-        $smarty = new Smarty();
-        $smarty->assign('titulo', "Inmobiliaria");
-        $smarty->assign('inmuebles', $inmuebles);
-        $smarty->assign('categorias', $categorias);
-        $smarty->display('template/mostrarInmuebles.tpl');
+
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assign('inmuebles', $inmuebles);
+        $this->smarty->assign('categorias', $categorias);
+        $this->smarty->display('template/mostrarInmuebles.tpl');
     }
 
     public function showError($msgError)
