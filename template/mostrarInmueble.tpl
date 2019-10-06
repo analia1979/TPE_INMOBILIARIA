@@ -1,20 +1,13 @@
 {include file='template/header.tpl'}
-      
-    <form action="ver" method="POST">
-<button name="ver" class="btn btn-primary">Volver</button>
-    </form>
-
-    <div class="card-deck">
-        <div class="card">
-            <h5 class="card-title">Inmobiliaria</h5>
-                <img src="../img/imagen2.jpg" style="max-width: 25rem;" class="card" alt="fondo">
-                <div class="card-body">
-                    <p class="card-text">{$inmueble->descripcion}</p> 
-                    <p class="card-text">({$inmueble->precio})</p>
-                    <p class="card-text">({$inmueble->idCategoria})</p>
-                </div>
+  <div class="container-fluid">
+<h1>Inmobiliaria</h1>
+  <div class="row">
+        <div class="col-sm">    
+                {include file='template/formulario.tpl'}
         </div>
-    </div>
+   </div>             
+
+   
     {include file='template/footer.tpl'}
         
      

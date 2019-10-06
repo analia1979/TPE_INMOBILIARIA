@@ -37,7 +37,19 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       
-      <a class="btn btn-outline-success my-2 my-sm-0" href="login">LOGIN</a>
+    {if isset($userName)}
+      <div class="navbar-nav ml-auto">
+            <span class="navbar-text">{$userName}</span>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="logout">LOGOUT</a>
+      </div>
+    {else}
+       <div class="navbar-nav ml-auto">
+          
+            <a class="btn btn-outline-success my-2 my-sm-0" href="login">LOGIN</a>
+      </div>
+    
+    {/if}
     </form>
   </div>
+
 </nav>

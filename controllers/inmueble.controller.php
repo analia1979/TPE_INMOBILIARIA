@@ -3,22 +3,21 @@ include_once('models/inmueble.model.php');
 include_once('views/inmueble.view.php');
 include_once('models/categorias.model.php');
 
+
 class inmuebleController
 {
-
     private $model;
     private $modelCategoria;
     private $view;
 
     public function __construct()
     {
+        /* $authHelper = new AuthHelper();
+        $authHelper->checkLoggedIn(); */
         $this->model = new inmuebleModel();
         $this->modelCategoria = new categoriasModel();
         $this->view = new inmuebleView();
     }
-
-
-
     /**
      * Muestra la lista de inmuebles.
      */
@@ -31,18 +30,22 @@ class inmuebleController
         $this->view->showInicio($inmuebles, $categorias);
     }
 
-    public function showInmuebleCategoria($idCategoria)
+    public function showInmuebleCategoria($params = null)
     {
         //obtengo los inmueble por categoria
+        $idCategoria = $params[':ID'];
         $inmuebles = $this->model->getInmueblePorCategoria($idCategoria);
-        $this->view->showInmueblePorCategoria($inmuebles);
+        $categorias = $this->modelCategoria->getAll();
+        $this->view->showInmueblePorCategoria($inmuebles, $categorias);
     }
-    public function showInmueble($inmueble)
+    public function showInmueble($params = null)
     {
-        $inmueble = $this->model->get($inmueble);
-
-        if ($inmueble) // si existe la tarea
-            $this->view->showInmueble($inmueble);
+        $idInmueble = $params[':ID'];
+        $inmueble = $this->model->getInmueble($idInmueble);
+        $inmuebles = $this->model->getAll();
+        $categorias = $this->modelCategoria->getAll();
+        if ($inmueble) // si existe el inmueble
+            $this->view->showInmueble($inmueble, $inmuebles, $categorias);
         else
             $this->view->showError('El inmueble no existe');
     }

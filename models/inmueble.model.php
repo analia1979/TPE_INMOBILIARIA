@@ -1,17 +1,20 @@
 <?php
 
-class InmuebleModel {
+class InmuebleModel
+{
 
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new PDO('mysql:host=localhost;dbname=db_inmobiliaria;charset=utf8', 'root', '');
     }
 
     /**
      * Obtiene la lista de inmuebles dejando en primer lugar las que no fueron vendidas.
      */
-    public function getAll() {
+    public function getAll()
+    {
         $query = $this->db->prepare('SELECT * FROM inmueble ORDER BY vendida ASC');
         $query->execute();
 
@@ -19,10 +22,12 @@ class InmuebleModel {
     }
 
     /**
-     * Retorna una inmuble según el id pasado.
+     * Retorna una inmueble según el id pasado.
      */
-    function get($idInmueble) {
-        $query = $this->db->prepare('SELECT * FROM inmueble WHERE id_inmueble = ?');
+    function getInmueble($idInmueble)
+    {
+        $query = $this->db->prepare('SELECT inmueble.id_inmueble, inmueble.descripcion as descripcion,precio,categoria.descripcion as tipo,inmueble.idCategoria as idCategoria
+        FROM inmueble join categoria on idCategoria=id_categoria  WHERE id_inmueble = ?');
         $query->execute(array($idInmueble));
 
         return $query->fetch(PDO::FETCH_OBJ);
@@ -32,16 +37,23 @@ class InmuebleModel {
      * Guarda un inmueble en la base de datos
      * Tiene que cumplir el mismo orden lo que llega como parametro con lo que este en el insert into
      */
-    public function save($descripcion, $precio, $categoria) {
+    public function save($descripcion, $precio, $categoria)
+    {
         $query = $this->db->prepare('INSERT INTO inmueble (descripcion, precio, idCategoria,vendida) VALUES (?,?,?,?)');
-        $query->execute(array($descripcion, $precio, $categoria,0)); 
-        
+        $query->execute(array($descripcion, $precio, $categoria, 0));
     }
 
-        /**
+    public function editarInmueble($precio, $idCategoria, $descripcion, $idinmueble)
+    {
+        $query = $this->db->prepare('UPDATE inmueble SET precio=?, idCategoria=?, descripcion=? WHERE id_inmueble=?');
+        $query->execute(array($precio, $idCategoria, $descripcion, $idinmueble));
+    }
+
+    /**
      * Elimina una tarea de la BBDD según el id pasado.
      */
-    function delete($idInmueble) {
+    function delete($idInmueble)
+    {
         $query = $this->db->prepare('DELETE FROM inmueble WHERE id_inmueble = ?');
         $query->execute([$idInmueble]);
     }
@@ -49,18 +61,16 @@ class InmuebleModel {
     /**
      * Actualiza la tarea y la marca finalizada.
      */
-    function end($idInmueble) {
+    function end($idInmueble)
+    {
         $query = $this->db->prepare('UPDATE inmueble SET vendida = 1 WHERE id_inmueble = ?');
         $query->execute([$idInmueble]);
     }
-    function getInmueblePorCategoria($idCategoria){
+    function getInmueblePorCategoria($idCategoria)
+    {
 
-        $query = $this->db->prepare('SELECT * FROM inmueble join categoria where idCategoria=id_Categoria and idCategoria=?');
+        $query = $this->db->prepare('SELECT * FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
         $query->execute(array($idCategoria));
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
-
-  
-
-
 }

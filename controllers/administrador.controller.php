@@ -1,39 +1,46 @@
- <?php
+<?php
 include_once('models/inmueble.model.php');
-include_once('views/inmueble.view.php');
+include_once('views/administrador.view.php');
 include_once('models/categorias.model.php');
+include_once('helpers/auth.helper.php');
 
-class administradorController {
+class AdministradorController
+{
 
-    private $model;
+    private $modelInmueble;
     private $modelCategoria;
     private $view;
 
-    public function __construct() {
-        $this->model = new inmuebleModel();
+    public function __construct()
+    {  // barrera para usuario logueado
+        $authHelper = new AuthHelper();
+        $authHelper->checkLoggedIn();
+        $this->modelInmueble = new inmuebleModel();
         $this->modelCategoria = new categoriasModel();
-        $this->view = new inmuebleView();
+        $this->view = new administradorView();
     }
+
+
 
     /**
      * Muestra la lista de inmuebles.
      */
-    public function mostrarLogin(){
-        
-    }
-     public function showInmuebles() {
+
+    public function showInmuebles()
+    {
         // obtengo inmuebles del model
-        $inmuebles = $this->model->getAll();
-        $categorias = $this->modelCategoria ->getAll();
+        $inmuebles = $this->modelInmueble->getAll();
+        $categorias = $this->modelCategoria->getAll();
 
         // se las paso a la vista
         $this->view->showInmuebles($inmuebles, $categorias);
     }
 
-    public function showInmueble($inmueble) {
-          $inmueble = $this->model->get($inmueble);
+    public function showInmueble($inmueble)
+    {
+        $inmueble = $this->modelInmueble->get($inmueble);
 
-          if ($inmueble) // si existe la tarea
+        if ($inmueble) // si existe el inmueble
             $this->view->showInmueble($inmueble);
         else
             $this->view->showError('El inmueble no existe');
@@ -42,28 +49,52 @@ class administradorController {
     /**
      * Agrega un nuevo inmueble a la lista.
      */
-    public function addInmueble() {
-        
+    public function addInmueble()
+    {
+
         $precio = $_POST['precio'];
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
-   
+
         if (!empty($precio) && !empty($descripcion) && !empty($categoria)) {
-           $this->model->save($precio, $descripcion, $categoria);
-           header("Location: ver");
+            $this->modelInmueble->save($precio, $descripcion, $categoria);
+            header("Location: ver");
         } else {
             $this->view->showError("Faltan datos obligatorios");
         }
     }
 
-    public function endInmueble($idInmueble) {
-        $this->model->end($idInmueble);
-        header("Location: ../ver");
+    public function cargarInmueble($params = null)
+    {
+        $idinmueble = $params[':ID'];
+        $inmueble = $this->modelInmueble->getInmueble($idinmueble);
+
+        $categorias = $this->modelCategoria->getAll();
+        $this->view->cargarInmueble($inmueble, $categorias);
+    }
+    public function editarInmueble()
+    {
+
+        $precio = $_POST['precio'];
+        $idCategoria = $_POST['idCategoria'];
+        $descripcion = $_POST['descripcion'];
+        $idinmueble = $_POST['idInmueble'];
+        //var_dump($_POST);
+        if (!empty($idinmueble) && !empty($precio) && !empty($idCategoria) && !empty($descripcion)) {
+            var_dump($_POST);
+            $this->modelInmueble->editarInmueble($precio, $idCategoria, $descripcion, $idinmueble,);
+            header("Location: admin");
+        }
+    }
+    public function endInmueble($idInmueble)
+    {
+        $this->modelInmueble->end($idInmueble);
+        header("Location: admin");
     }
 
-    public function deleteInmueble($idInmueble) {
-        $this->model->delete($idInmueble);
-        header("Location: ../ver");
+    public function deleteInmueble($idInmueble)
+    {
+        $this->modelInmueble->delete($idInmueble);
+        header("Location: inicio");
     }
-
 }

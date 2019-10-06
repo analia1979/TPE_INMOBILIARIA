@@ -1,14 +1,18 @@
 <?php
 require_once('libs/Smarty.class.php');
+require_once('helpers/auth.helper.php');
 
-class usuarioView
+class AdministradorView
 {
     private $smarty;
 
     public function __construct()
     {
+        $authHelper = new AuthHelper();
+        $userName = $authHelper->getLoggedUserName();
         $this->smarty = new Smarty();
         $this->smarty->assign('basehref', BASE_URL);
+        $this->smarty->assign('userName', $userName);
     }
 
 
@@ -18,7 +22,7 @@ class usuarioView
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
         $this->smarty->assign('categorias', $categorias);
-        $this->smarty->display('template/inicio.tpl');
+        $this->smarty->display('template/mostrarForm.tpl');
     }
 
     public function showError($msgError)
@@ -30,14 +34,25 @@ class usuarioView
     /**
      * Construye el html que permite visualizar el detalle de un inmueble determinada.
      */
-    function showInmueble($inmueble)
+    function showInmueble($inmueble, $categorias)
     {
 
-        $smarty = new Smarty();
-        $smarty->assign('titulo', "Inmobiliaria");
-        $smarty->assign('inmueble', $inmueble);
-        $smarty->display('template/mostrarInmueble.tpl');
+
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assign('inmueble', $inmueble);
+        $this->smarty->assign('categoria', $categorias);
+        $this->smarty->display('template/mostrarInmueble.tpl');
     }
+
+    function cargarInmueble($inmueble, $categorias)
+    {
+
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assign('inmueble', $inmueble);
+        $this->smarty->assign('categorias', $categorias);
+        $this->smarty->display('template/editarInmueble.tpl');
+    }
+
     /**Construye el template que permite visualizar todos los inmuebles de un determinada categoria */
 
     public function showInmueblePorCategoria($inmuebles)

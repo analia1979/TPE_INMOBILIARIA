@@ -1,14 +1,10 @@
     <?php
     require_once('controllers/inmueble.controller.php');
-    require_once('controllers/categorias.controller.php');
+
     require_once('controllers/login.controller.php');
-    require_once('controllers/usuario.controller.php');
+    require_once('controllers/administrador.controller.php');
+    require_once('Router.php');
 
-   
-
-    // si no viene una "action", definimos una por defecto
-    if ($_GET['action'] == '')
-        $_GET['action'] = 'inicio';
 
     // CONSTANTES PARA RUTEO
     define("BASE_URL", 'http://' . $_SERVER["SERVER_NAME"] . ':' . $_SERVER["SERVER_PORT"] . dirname($_SERVER["PHP_SELF"]) . '/');
@@ -16,40 +12,39 @@
     define("LOGIN", BASE_URL . 'login');
     define("VER", BASE_URL . 'inicio');
 
-    // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
-    $partesURL = explode('/', $_GET['action']);
+    /*   // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
+    $partesURL = explode('/', $_GET['action']); */
 
-    switch ($partesURL[0]) {
+    $r = new Router();
 
-        case 'inicio':
-            $controller = new inmuebleController();
-            $controller->showInicio();
-            break;
-         case 'propiedades':
-            $controller = new inmuebleController();
-            $controller->showInmuebles();
-            break;
-        case 'admin':
-            $controller = new usuarioController();
-            $controller->showInmuebles();
-            break;
-        case 'login':
-            $controller = new loginController;
-            $controller->mostrarLogin();
-            break;
-        case 'verificarUsuario':
-            $controller = new loginController;
-            $controller->verificarUsuario();
-            break;
-        case 'inmueblescategoria':
-            $controller = new inmuebleController();
-            $controller->showInmueblesCategoria($partesURL[1]);
-            break;
+    //Ruta por defecto.
+    $r->setDefaultRoute("inmuebleController", "showInicio");
 
-        case 'inmueble':
-            $controller = new inmuebleController();
-            $controller->showInmueble($partesURL[1]);
-            break;
+    // rutas
+    $r->addRoute("inicio", "GET", "inmuebleController", "showInicio");
+    $r->addRoute("login", "GET", "LoginController", "mostrarLogin");
+    $r->addRoute("verificarUsuario", "POST", "LoginController", "verificarUsuario");
+    $r->addRoute("admin", "GET", "AdministradorController", "showInmuebles");
+    $r->addRoute("logout", "GET", "LoginController", "logout");
+    $r->addRoute("editar/:ID", "GET", "AdministradorController", "cargarInmueble");
+    $r->addRoute("editar", "POST", "AdministradorController", "editarInmueble");
+    $r->addRoute("propiedades", "GET", "inmuebleController", "showInmuebles");
+    $r->addRoute("tarea/:ID", "GET", "inmuebleController", "showInmueble");
+    $r->addRoute("inmueblescategoria/:ID", "GET", "inmuebleController", "showInmuebleCategoria");
+    $r->addRoute("inmueble/:ID", "GET", "inmuebleController", "showInmueble");
+
+    //  $r->addRoute("finalizar/:ID", "GET", "TaskController", "endTask");
+    // $r->addRoute("nueva", "POST", "TaskController", "addTask");
+
+    //Ruta por defecto.
+    //  $r->setDefaultRoute("inicio", "showInmuebles");
+
+    //run
+    $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']); 
+   
+    /* switch ($partesURL[0]) {
+              
+   
         case 'nueva':
             $controller = new inmuebleController();
             $controller->addInmueble();
@@ -85,4 +80,4 @@
         default:
             echo "<h1>Error 404 - Page not found </h1>";
             break;
-    }
+    } */
