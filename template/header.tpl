@@ -33,7 +33,11 @@
          {/foreach}  
        </div>   
       </li>
-     
+      {if isset($userName)}
+          <li class="nav-item active">
+            <a class="nav-link" href="admin">Administrar Inmuebles<span class="sr-only">(current)</span></a>
+          </li>
+      {/if}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       

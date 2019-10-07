@@ -50,9 +50,9 @@ class InmuebleModel
     }
 
     /**
-     * Elimina una tarea de la BBDD según el id pasado.
+     * Elimina un inmueble de la BBDD según el id pasado.
      */
-    function delete($idInmueble)
+    public function delete($idInmueble)
     {
         $query = $this->db->prepare('DELETE FROM inmueble WHERE id_inmueble = ?');
         $query->execute([$idInmueble]);

@@ -36,12 +36,13 @@ class AdministradorController
         $this->view->showInmuebles($inmuebles, $categorias);
     }
 
-    public function showInmueble($inmueble)
+    public function showInmueble($inmueble, $categorias)
     {
         $inmueble = $this->modelInmueble->get($inmueble);
+        $categorias = $this->modelCategoria->getAll();
 
         if ($inmueble) // si existe el inmueble
-            $this->view->showInmueble($inmueble);
+            $this->view->showInmueble($inmueble, $categorias);
         else
             $this->view->showError('El inmueble no existe');
     }
@@ -58,7 +59,7 @@ class AdministradorController
 
         if (!empty($precio) && !empty($descripcion) && !empty($categoria)) {
             $this->modelInmueble->save($precio, $descripcion, $categoria);
-            header("Location: ver");
+            header("Location: " . VER);
         } else {
             $this->view->showError("Faltan datos obligatorios");
         }
@@ -83,18 +84,20 @@ class AdministradorController
         if (!empty($idinmueble) && !empty($precio) && !empty($idCategoria) && !empty($descripcion)) {
             var_dump($_POST);
             $this->modelInmueble->editarInmueble($precio, $idCategoria, $descripcion, $idinmueble,);
-            header("Location: admin");
+            header("Location: " . ADMIN);
         }
     }
-    public function endInmueble($idInmueble)
-    {
-        $this->modelInmueble->end($idInmueble);
-        header("Location: admin");
-    }
 
-    public function deleteInmueble($idInmueble)
+    public function deleteInmueble($params = null)
     {
-        $this->modelInmueble->delete($idInmueble);
-        header("Location: inicio");
+        $idInmueble = $params[':ID'];
+        var_dump($idInmueble);
+        if (isset($idInmueble)) {
+            $this->modelInmueble->delete($idInmueble);
+
+            header("Location: " . ADMIN);
+        } else {
+            $this->view->showError();
+        }
     }
 }

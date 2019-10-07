@@ -9,7 +9,7 @@
                 {foreach $inmuebles as $inmueble}
                         <div class="tarea list-group-item">
                      <h5>En venta</h5>
-                        <img src="../img/imagen2.jpg" style="max-width: 55rem;" class="card" alt="fondo">
+                        <img src="img/imagen2.jpg" style="max-width: 55rem;" class="card" alt="fondo">
                         <small><a href="inmueble/{$inmueble->id_inmueble}">VER</a></small>
                        </div>
                 {/foreach}

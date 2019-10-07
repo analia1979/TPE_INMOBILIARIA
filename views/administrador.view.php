@@ -25,10 +25,10 @@ class AdministradorView
         $this->smarty->display('template/mostrarForm.tpl');
     }
 
-    public function showError($msgError)
+    public function showError()
     {
         echo "<h1>¡¡¡ERROR!!!</h1>";
-        echo "<h2>{$msgError}</h2>";
+        //echo "<h2>{$msgError}</h2>";
     }
 
     /**

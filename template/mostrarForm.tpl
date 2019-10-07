@@ -17,7 +17,7 @@
                     </div>
                 <div class="col-sm">    
                 <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="submit" class="btn btn-primary">EDITAR</button>
+               
             </form>
     </div>        
         

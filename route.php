@@ -11,6 +11,7 @@
 
     define("LOGIN", BASE_URL . 'login');
     define("VER", BASE_URL . 'inicio');
+    define("ADMIN", BASE_URL . 'admin');
 
     /*   // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
     $partesURL = explode('/', $_GET['action']); */
@@ -28,6 +29,7 @@
     $r->addRoute("logout", "GET", "LoginController", "logout");
     $r->addRoute("editar/:ID", "GET", "AdministradorController", "cargarInmueble");
     $r->addRoute("editar", "POST", "AdministradorController", "editarInmueble");
+    $r->addRoute("eliminar/:ID", "GET", "AdministradorController", "deleteInmueble");
     $r->addRoute("propiedades", "GET", "inmuebleController", "showInmuebles");
     $r->addRoute("tarea/:ID", "GET", "inmuebleController", "showInmueble");
     $r->addRoute("inmueblescategoria/:ID", "GET", "inmuebleController", "showInmuebleCategoria");
@@ -36,8 +38,7 @@
     //  $r->addRoute("finalizar/:ID", "GET", "TaskController", "endTask");
     // $r->addRoute("nueva", "POST", "TaskController", "addTask");
 
-    //Ruta por defecto.
-    //  $r->setDefaultRoute("inicio", "showInmuebles");
+
 
     //run
     $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']); 
