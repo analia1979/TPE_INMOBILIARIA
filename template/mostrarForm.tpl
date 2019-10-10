@@ -16,7 +16,7 @@
                             <textarea name="descripcion" class="form-control" rows="3"></textarea>
                     </div>
                 <div class="col-sm">    
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary">AGREGAR</button>
                
             </form>
     </div>        

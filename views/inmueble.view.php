@@ -6,22 +6,23 @@ class inmuebleView
 {
     private $smarty;
 
-    public function __construct()
+    public function __construct($categorias)
     {
         $authHelper = new AuthHelper();
         $userName = $authHelper->getLoggedUserName();
         $this->smarty = new Smarty();
         $this->smarty->assign('basehref', BASE_URL);
         $this->smarty->assign('userName', $userName);
+        $this->smarty->assign('categorias', $categorias);
     }
 
 
-    public function showInmuebles($inmuebles, $categorias)
+    public function showInmuebles($inmuebles)
     {
 
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
-        $this->smarty->assign('categorias', $categorias);
+        //$this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/mostrarInmuebles.tpl');
     }
 
@@ -34,12 +35,12 @@ class inmuebleView
     /**
      * Construye el html que permite visualizar el detalle de un inmueble determinado.
      */
-    function showInmueble($inmueble, $inmuebles, $categorias)
+    function showInmueble($inmueble, $inmuebles)
     {
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
         $this->smarty->assign('inmuebles', $inmuebles);
-        $this->smarty->assign('categorias', $categorias);
+        //   $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/mostrarInmueble.tpl');
     }
 
@@ -51,19 +52,19 @@ class inmuebleView
         $this->smarty->display('template/mostrarCategorias.tpl');
     }
 
-    public function showInicio($inmuebles, $categorias)
+    public function showInicio($inmuebles)
     {
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
-        $this->smarty->assign('categorias', $categorias);
+        //$this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/inicio.tpl');
     }
 
-    public function showInmueblePorCategoria($inmuebles, $categorias)
+    public function showInmueblePorCategoria($inmuebles)
     {
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
-        $this->smarty->assign('categorias', $categorias);
+        // $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/mostrarInmuebles.tpl');
     }
 }

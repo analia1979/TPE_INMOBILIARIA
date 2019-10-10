@@ -1,0 +1,22 @@
+.botonera {
+    margin: 0;
+    background: #FFF0AA;
+    text-transform: uppercase;
+    padding: 0;
+}
+
+.botonera li a {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #FFF0AA;
+    color: #D4C26A;
+}
+
+.botonera li a:hover {
+    background: #806D15;
+}
+
+.resaltado {
+    text-transform: capitalize;
+    color: #AA9739;
+    font-size: 18px;
+}

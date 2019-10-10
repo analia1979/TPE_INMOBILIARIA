@@ -17,7 +17,8 @@ class AdministradorController
         $authHelper->checkLoggedIn();
         $this->modelInmueble = new inmuebleModel();
         $this->modelCategoria = new categoriasModel();
-        $this->view = new administradorView();
+        $categorias = $this->modelCategoria->getAll();
+        $this->view = new administradorView($categorias);
     }
 
 
@@ -30,19 +31,18 @@ class AdministradorController
     {
         // obtengo inmuebles del model
         $inmuebles = $this->modelInmueble->getAll();
-        $categorias = $this->modelCategoria->getAll();
 
         // se las paso a la vista
-        $this->view->showInmuebles($inmuebles, $categorias);
+        $this->view->showInmuebles($inmuebles);
     }
 
-    public function showInmueble($inmueble, $categorias)
+    public function showInmueble($inmueble)
     {
         $inmueble = $this->modelInmueble->get($inmueble);
-        $categorias = $this->modelCategoria->getAll();
+        // $categorias = $this->modelCategoria->getAll();
 
         if ($inmueble) // si existe el inmueble
-            $this->view->showInmueble($inmueble, $categorias);
+            $this->view->showInmueble($inmueble);
         else
             $this->view->showError('El inmueble no existe');
     }

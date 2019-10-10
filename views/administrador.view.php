@@ -6,22 +6,23 @@ class AdministradorView
 {
     private $smarty;
 
-    public function __construct()
+    public function __construct($categorias)
     {
         $authHelper = new AuthHelper();
         $userName = $authHelper->getLoggedUserName();
         $this->smarty = new Smarty();
         $this->smarty->assign('basehref', BASE_URL);
         $this->smarty->assign('userName', $userName);
+        $this->smarty->assign('categorias', $categorias);
     }
 
 
-    public function showInmuebles($inmuebles, $categorias)
+    public function showInmuebles($inmuebles)
     {
 
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
-        $this->smarty->assign('categorias', $categorias);
+        //  $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/mostrarForm.tpl');
     }
 
@@ -34,22 +35,22 @@ class AdministradorView
     /**
      * Construye el html que permite visualizar el detalle de un inmueble determinada.
      */
-    function showInmueble($inmueble, $categorias)
+    function showInmueble($inmueble)
     {
 
 
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
-        $this->smarty->assign('categoria', $categorias);
+        // $this->smarty->assign('categoria', $categorias);
         $this->smarty->display('template/mostrarInmueble.tpl');
     }
 
-    function cargarInmueble($inmueble, $categorias)
+    function cargarInmueble($inmueble)
     {
 
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
-        $this->smarty->assign('categorias', $categorias);
+        // $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/editarInmueble.tpl');
     }
 
@@ -57,24 +58,24 @@ class AdministradorView
 
     public function showInmueblePorCategoria($inmuebles)
     {
-        $smarty = new Smarty();
-        $smarty->assign('titulo', "Inmobiliaria");
-        $smarty->assing('inmuebles', $inmuebles);
-        $smarty->display('template/mostrarInmueblePorCategoria.tpl');
+        //  $smarty = new Smarty();
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assing('inmuebles', $inmuebles);
+        $this->smarty->display('template/mostrarInmueblePorCategoria.tpl');
     }
 
-    public function showCategorias($Categorias)
+    public function showCategorias($categorias)
     {
-        $smarty = new Smarty();
-        $smarty->assign('titulo', "Inmobiliaria");
-        $smarty->assign('Categorias', $Categorias);
-        $smarty->display('template/mostrarCategorias.tpl');
+
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assign('Categorias', $categorias);
+        $this->smarty->display('template/mostrarCategorias.tpl');
     }
 
     public function showHome()
     {
-        $smarty = new Smarty();
-        $smarty->assign('titulo', "Inmobiliaria");
-        $smarty->display('template/mostrarHome.tpl');
+        //$smarty = new Smarty();
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->display('template/mostrarHome.tpl');
     }
 }

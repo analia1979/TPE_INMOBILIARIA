@@ -12,11 +12,12 @@ class inmuebleController
 
     public function __construct()
     {
-        /* $authHelper = new AuthHelper();
-        $authHelper->checkLoggedIn(); */
+
         $this->model = new inmuebleModel();
         $this->modelCategoria = new categoriasModel();
-        $this->view = new inmuebleView();
+        $categorias = $this->modelCategoria->getAll();
+
+        $this->view = new inmuebleView($categorias);
     }
     /**
      * Muestra la lista de inmuebles.
@@ -25,9 +26,9 @@ class inmuebleController
     {
         // obtengo inmuebles del model
         $inmuebles = $this->model->getAll();
-        $categorias = $this->modelCategoria->getAll();
+        //   $categorias = $this->modelCategoria->getAll();
         // se las paso a la vista
-        $this->view->showInicio($inmuebles, $categorias);
+        $this->view->showInicio($inmuebles);
     }
 
     public function showInmuebleCategoria($params = null)
@@ -35,17 +36,17 @@ class inmuebleController
         //obtengo los inmueble por categoria
         $idCategoria = $params[':ID'];
         $inmuebles = $this->model->getInmueblePorCategoria($idCategoria);
-        $categorias = $this->modelCategoria->getAll();
-        $this->view->showInmueblePorCategoria($inmuebles, $categorias);
+        //  $categorias = $this->modelCategoria->getAll();
+        $this->view->showInmueblePorCategoria($inmuebles);
     }
     public function showInmueble($params = null)
     {
         $idInmueble = $params[':ID'];
         $inmueble = $this->model->getInmueble($idInmueble);
         $inmuebles = $this->model->getAll();
-        $categorias = $this->modelCategoria->getAll();
+        // $categorias = $this->modelCategoria->getAll();
         if ($inmueble) // si existe el inmueble
-            $this->view->showInmueble($inmueble, $inmuebles, $categorias);
+            $this->view->showInmueble($inmueble, $inmuebles);
         else
             $this->view->showError('El inmueble no existe');
     }
@@ -54,7 +55,7 @@ class inmuebleController
         // obtengo inmuebles del model
         $inmuebles = $this->model->getAll();
         // se las paso a la vista
-        $categorias = $this->modelCategoria->getAll();
-        $this->view->showInmuebles($inmuebles, $categorias);
+        //   $categorias = $this->modelCategoria->getAll();
+        $this->view->showInmuebles($inmuebles);
     }
 }

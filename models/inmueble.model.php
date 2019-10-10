@@ -41,12 +41,15 @@ class InmuebleModel
     {
         $query = $this->db->prepare('INSERT INTO inmueble (descripcion, precio, idCategoria,vendida) VALUES (?,?,?,?)');
         $query->execute(array($descripcion, $precio, $categoria, 0));
+        var_dump($query->errorInfo());
+        die();
     }
 
     public function editarInmueble($precio, $idCategoria, $descripcion, $idinmueble)
     {
         $query = $this->db->prepare('UPDATE inmueble SET precio=?, idCategoria=?, descripcion=? WHERE id_inmueble=?');
         $query->execute(array($precio, $idCategoria, $descripcion, $idinmueble));
+        //   var_dump($query->(errorInfor());die() para ver el error de sql
     }
 
     /**
