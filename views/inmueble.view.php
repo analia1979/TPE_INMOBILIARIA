@@ -41,7 +41,7 @@ class inmuebleView
         $this->smarty->assign('inmueble', $inmueble);
         $this->smarty->assign('inmuebles', $inmuebles);
         //   $this->smarty->assign('categorias', $categorias);
-        $this->smarty->display('template/mostrarInmueble.tpl');
+        $this->smarty->display('template/viewInmueble.tpl');
     }
 
     public function showCategorias($Categorias)

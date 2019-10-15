@@ -15,7 +15,7 @@ class InmuebleModel
      */
     public function getAll()
     {
-        $query = $this->db->prepare('SELECT * FROM inmueble ORDER BY vendida ASC');
+        $query = $this->db->prepare('SELECT * FROM inmueble ORDER BY id_inmueble ASC');
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_OBJ);
@@ -37,12 +37,12 @@ class InmuebleModel
      * Guarda un inmueble en la base de datos
      * Tiene que cumplir el mismo orden lo que llega como parametro con lo que este en el insert into
      */
-    public function save($descripcion, $precio, $categoria)
+    public function save($precio, $descripcion, $categoria)
     {
-        $query = $this->db->prepare('INSERT INTO inmueble (descripcion, precio, idCategoria,vendida) VALUES (?,?,?,?)');
-        $query->execute(array($descripcion, $precio, $categoria, 0));
-        var_dump($query->errorInfo());
-        die();
+        $query = $this->db->prepare('INSERT INTO inmueble (precio, descripcion, idCategoria,vendida) VALUES (?,?,?,?)');
+        $query->execute(array($precio, $descripcion, $categoria, 0));
+        /*  var_dump($query->errorInfo());
+        die(); */
     }
 
     public function editarInmueble($precio, $idCategoria, $descripcion, $idinmueble)
@@ -75,5 +75,11 @@ class InmuebleModel
         $query = $this->db->prepare('SELECT * FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
         $query->execute(array($idCategoria));
         return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function getInmuebleCategoria($idCategoria)
+    {
+        $query = $this->db->prepare('SELECT count(id_inmueble) as cantidad from inmueble where idCategoria=?');
+        $query->execute([$idCategoria]);
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 }

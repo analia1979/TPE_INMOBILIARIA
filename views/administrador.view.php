@@ -26,10 +26,10 @@ class AdministradorView
         $this->smarty->display('template/mostrarForm.tpl');
     }
 
-    public function showError()
+    public function showError($params = null)
     {
         echo "<h1>¡¡¡ERROR!!!</h1>";
-        //echo "<h2>{$msgError}</h2>";
+        echo "<h2>{$params}</h2>";
     }
 
     /**
@@ -64,12 +64,20 @@ class AdministradorView
         $this->smarty->display('template/mostrarInmueblePorCategoria.tpl');
     }
 
-    public function showCategorias($categorias)
+    public function showCategorias($inmuebles)
     {
 
         $this->smarty->assign('titulo', "Inmobiliaria");
-        $this->smarty->assign('Categorias', $categorias);
+        $this->smarty->assign('inmuebles', $inmuebles);
         $this->smarty->display('template/mostrarCategorias.tpl');
+    }
+
+    public function showEditarCategoria($inmuebles, $categoria)
+    {
+        $this->smarty->assign('titulo', "Inmobiliaria");
+        $this->smarty->assign('categoria', $categoria);
+        $this->smarty->assign('inmuebles', $inmuebles);
+        $this->smarty->display('template/mostrarEditarCategorias.tpl');
     }
 
     public function showHome()

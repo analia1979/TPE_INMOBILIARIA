@@ -1,3 +1,5 @@
+ 
+ 
  <div class="form-group">
                             <input type="hidden" class="form-control" name="idInmueble"  value="{$inmueble->id_inmueble}" id="idInmueble">
                             <label>Precio:</label><input name="precio" type="number" value="{$inmueble->precio}" id="precio" class="form-control">

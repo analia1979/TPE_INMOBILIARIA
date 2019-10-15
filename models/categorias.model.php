@@ -1,17 +1,20 @@
 <?php
 
-class categoriasModel {
+class categoriasModel
+{
 
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new PDO('mysql:host=localhost;dbname=db_inmobiliaria;charset=utf8', 'root', '');
     }
 
     /**
      * Obtiene la lista de categorias
      */
-    public function getAll() {
+    public function getAll()
+    {
         $query = $this->db->prepare('SELECT * FROM categoria ORDER BY id_categoria ASC');
         $query->execute();
 
@@ -19,34 +22,44 @@ class categoriasModel {
     }
 
     /**
-     * Retorna una tarea según el id pasado.
+     * Retorna una categoria según el id pasado.
      */
-    function get($idCategorias) {
+    function get($idCategoria)
+    {
         $query = $this->db->prepare('SELECT * FROM categoria WHERE id_categoria = ?');
-        $query->execute(array($idCategorias));
+        $query->execute(array($idCategoria));
 
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
     /**
-     * Guarda una tarea en la base de datos.
+     * Guarda una nueva categoria en la base de datos.
      */
-    public function save($nombre) {
-        $query = $this->db->prepare('INSERT INTO categoria(nombre) VALUES(?,?,?,0)');
-        $query->execute([$nombre]); 
+    public function save($nombre)
+    {
+        $query = $this->db->prepare('INSERT INTO categoria (descripcion) VALUES(?)');
+        $query->execute([$nombre]);
+        /*  var_dump($query->errorInfo());
+        die(); */
     }
 
-        /**
-     * Elimina una tarea de la BBDD según el id pasado.
-     */
-    function delete($idCategoria) {
+    public function update($tipo, $id)
+    {
+        $query = $this->db->prepare('UPDATE categoria SET descripcion = ? WHERE id_categoria = ?');
+        $query->execute(array($tipo, $id));
+        //var_dump($query->errorInfo()); die();
+    }
+
+
+    /*   Elimina una categoria de la BBDD según el id pasado.
+        Controlar que no haya inmuebles asociados a esa categoria para poder borrar */
+    function delete($idCategoria)
+    {
         $query = $this->db->prepare('DELETE FROM categoria WHERE id_categoria = ?');
-        $query->execute([$idCategoria]); 
+        $query->execute([$idCategoria]);
     }
 
     /**
      * Actualiza la tarea y la marca finalizada.
      */
-    
-
 }

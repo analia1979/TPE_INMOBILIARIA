@@ -1,22 +1,39 @@
-.botonera {
-    margin: 0;
-    background: #FFF0AA;
-    text-transform: uppercase;
-    padding: 0;
-}
+ .botonera {
+     margin: 0;
+     background: #68AD2F;
+     color: #E3F9D1;
+     text-transform: uppercase;
+     padding: 0;
+     height: 60px;
+ }
 
-.botonera li a {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: #FFF0AA;
-    color: #D4C26A;
-}
+ .botonera li a {
+     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+     /* background-color: #E3F9D1;*/
+ }
 
-.botonera li a:hover {
-    background: #806D15;
-}
+ .dropdown-menu {
+     background-color: #68AD2F;
+ }
 
-.resaltado {
-    text-transform: capitalize;
-    color: #AA9739;
-    font-size: 18px;
-}
+ .botonera li a:hover {
+     background: #E3F9D1;
+ }
+
+ .resaltado a {
+     text-transform: capitalize;
+     color: #AA9739;
+     font-size: 18px;
+ }
+
+ .login {
+     border: 1px solid 076969;
+ }
+
+ .login a :hover {
+     background: 076969;
+ }
+
+ .pie {
+     background: #68AD2F;
+ }

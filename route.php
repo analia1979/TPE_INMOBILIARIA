@@ -12,6 +12,7 @@
     define("LOGIN", BASE_URL . 'login');
     define("VER", BASE_URL . 'inicio');
     define("ADMIN", BASE_URL . 'admin');
+    define("ADMINCAT", BASE_URL . 'verCat');
 
     /*   // parsea (separa) la url (si viene "sumar/5/8" => [sumar, 5, 8])
     $partesURL = explode('/', $_GET['action']); */
@@ -31,54 +32,18 @@
     $r->addRoute("editar", "POST", "AdministradorController", "editarInmueble");
     $r->addRoute("eliminar/:ID", "GET", "AdministradorController", "deleteInmueble");
     $r->addRoute("propiedades", "GET", "inmuebleController", "showInmuebles");
-    $r->addRoute("tarea/:ID", "GET", "inmuebleController", "showInmueble");
     $r->addRoute("inmueblescategoria/:ID", "GET", "inmuebleController", "showInmuebleCategoria");
     $r->addRoute("inmueble/:ID", "GET", "inmuebleController", "showInmueble");
-
+    $r->addRoute("nueva", "POST", "AdministradorController", "addInmueble");
+    $r->addRoute("verCat", "GET", "AdministradorController", "showCategorias");
+    $r->addRoute("nuevaCat", "POST", "AdministradorController", "addCategorias");
+    $r->addRoute("editarCat/:ID", "GET", "AdministradorController", "editarCategoria");
+    $r->addRoute("modificarCat", "POST", "AdministradorController", "modificarCategoria");
+    $r->addRoute("eliminarCat/:ID", "GET", "AdministradorController", "eliminarCategoria");
     //  $r->addRoute("finalizar/:ID", "GET", "TaskController", "endTask");
-    // $r->addRoute("nueva", "POST", "TaskController", "addTask");
+
 
 
 
     //run
-    $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']); 
-   
-    /* switch ($partesURL[0]) {
-              
-   
-        case 'nueva':
-            $controller = new inmuebleController();
-            $controller->addInmueble();
-            break;
-        case 'eliminar':
-            $controller = new inmuebleController();
-            $controller->deleteInmueble($partesURL[1]);
-            break;
-        case 'vendida':
-            $controller = new inmuebleController();
-            $controller->endInmueble($partesURL[1]);
-            break;
-        case 'verCat':
-            $controller = new categoriaController();
-            $controller->showCategorias();
-            break;
-        case 'categoriaCat':
-            $controller = new categoriaController();
-            $controller->showCategorias($partesURL[1]);
-            break;
-        case 'nuevaCat':
-            $controller = new categoriaController();
-            $controller->addCategorias();
-            break;
-        case 'eliminarCat':
-            $controller = new categoriaController();
-            $controller->deleteCategorias($partesURL[1]);
-            break;
-        case 'home':
-            $controller = new categoriaController();
-            $controller->showHome();
-            break;
-        default:
-            echo "<h1>Error 404 - Page not found </h1>";
-            break;
-    } */
+    $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);
