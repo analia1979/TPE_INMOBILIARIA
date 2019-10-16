@@ -74,7 +74,7 @@ class InmuebleModel
     public function getInmueblePorCategoria($idCategoria)
     {
 
-        $query = $this->db->prepare('SELECT id_inmueble,inmueble.descripcion, precio,inmueble.idCategoria,categoria.descripcion as tipo FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
+        $query = $this->db->prepare('SELECT id_inmueble,inmueble.descripcion, precio,inmueble.idCategoria,categoria.descripcion as tipo,vendida FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
         $query->execute(array($idCategoria));
         return $query->fetchAll(PDO::FETCH_OBJ);
     }

@@ -26,7 +26,7 @@ class inmuebleController
     {
         // obtengo inmuebles del model
         $inmuebles = $this->model->getAll();
-        //   $categorias = $this->modelCategoria->getAll();
+
         // se las paso a la vista
         $this->view->showInicio($inmuebles);
     }
