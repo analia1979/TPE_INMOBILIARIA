@@ -82,7 +82,7 @@ class AdministradorController
         //var_dump($_POST);
         if (!empty($idinmueble) && !empty($precio) && !empty($idCategoria) && !empty($descripcion)) {
             //  var_dump($_POST);
-            $this->modelInmueble->editarInmueble($precio, $idCategoria, $descripcion, $idinmueble,);
+            $this->modelInmueble->editarInmueble($precio, $idCategoria, $descripcion, $idinmueble);
             header("Location: " . ADMIN);
         } else {
             $this->view->showError('FALTAN DATOS OBLIGATORIOS');
