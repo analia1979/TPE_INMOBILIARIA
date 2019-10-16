@@ -40,7 +40,7 @@
     $r->addRoute("editarCat/:ID", "GET", "AdministradorController", "editarCategoria");
     $r->addRoute("modificarCat", "POST", "AdministradorController", "modificarCategoria");
     $r->addRoute("eliminarCat/:ID", "GET", "AdministradorController", "eliminarCategoria");
-    //  $r->addRoute("finalizar/:ID", "GET", "TaskController", "endTask");
+    $r->addRoute("vendida/:ID", "GET", "AdministradorController", "marcarVendida");
 
 
 

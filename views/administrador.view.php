@@ -14,22 +14,23 @@ class AdministradorView
         $this->smarty->assign('basehref', BASE_URL);
         $this->smarty->assign('userName', $userName);
         $this->smarty->assign('categorias', $categorias);
+        $this->smarty->assign('titulo', "INMOBILIARIA BOLIVAR");
     }
 
 
     public function showInmuebles($inmuebles)
     {
 
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        // $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
         //  $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/mostrarForm.tpl');
     }
 
-    public function showError($params = null)
+    public function showError($error = null)
     {
-        echo "<h1>¡¡¡ERROR!!!</h1>";
-        echo "<h2>{$params}</h2>";
+        $this->smarty->assign('error', $error);
+        $this->smarty->display('template/error.tpl');
     }
 
     /**
@@ -39,7 +40,7 @@ class AdministradorView
     {
 
 
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        // $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
         // $this->smarty->assign('categoria', $categorias);
         $this->smarty->display('template/mostrarInmueble.tpl');
@@ -48,9 +49,9 @@ class AdministradorView
     function cargarInmueble($inmueble)
     {
 
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        //  $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
-        // $this->smarty->assign('categorias', $categorias);
+
         $this->smarty->display('template/editarInmueble.tpl');
     }
 
@@ -59,7 +60,7 @@ class AdministradorView
     public function showInmueblePorCategoria($inmuebles)
     {
         //  $smarty = new Smarty();
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        //  $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assing('inmuebles', $inmuebles);
         $this->smarty->display('template/mostrarInmueblePorCategoria.tpl');
     }
@@ -67,23 +68,23 @@ class AdministradorView
     public function showCategorias($inmuebles)
     {
 
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        // $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmuebles', $inmuebles);
         $this->smarty->display('template/mostrarCategorias.tpl');
     }
 
     public function showEditarCategoria($inmuebles, $categoria)
     {
-        $this->smarty->assign('titulo', "Inmobiliaria");
+        // $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('categoria', $categoria);
         $this->smarty->assign('inmuebles', $inmuebles);
         $this->smarty->display('template/mostrarEditarCategorias.tpl');
     }
 
-    public function showHome()
+    /*  public function showHome()
     {
         //$smarty = new Smarty();
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->display('template/mostrarHome.tpl');
-    }
+    } */
 }

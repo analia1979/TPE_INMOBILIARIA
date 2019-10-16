@@ -84,7 +84,16 @@ class AdministradorController
             //  var_dump($_POST);
             $this->modelInmueble->editarInmueble($precio, $idCategoria, $descripcion, $idinmueble,);
             header("Location: " . ADMIN);
+        } else {
+            $this->view->showError('FALTAN DATOS OBLIGATORIOS');
         }
+    }
+
+    public function marcarVendida($params = null)
+    {
+        $idInmueble = $params[':ID'];
+        $this->modelInmueble->updateVendida($idInmueble);
+        header("Location: " . ADMIN);
     }
 
     public function deleteInmueble($params = null)
@@ -96,7 +105,7 @@ class AdministradorController
 
             header("Location: " . ADMIN);
         } else {
-            $this->view->showError();
+            $this->view->showError('OCURRIO UN ERROR AL BORRAR');
         }
     }
     public function showCategorias()
@@ -142,14 +151,13 @@ class AdministradorController
     public function eliminarCategoria($params = null)
     {
         $idCategoria = $params[':ID'];
-        /* var_dump($idCategoria);
-        die(); */
+
         if (isset($idCategoria)) {
             $cantidadInmuebles = $this->modelInmueble->getInmuebleCategoria($idCategoria);
 
             if ($cantidadInmuebles->cantidad > 0) { //si hay inmuebles asociados no puedo borrar
 
-                $this->view->showError('Hay inmuebles asociados a la categoria.');
+                $this->view->showError('NO SE PUEDE BORRAR LA CATEGORIA HAY INMUEBLES ASOCIADOS A LA CATEGORIA.');
             } else {
                 $this->modelCategoria->delete($idCategoria);
 

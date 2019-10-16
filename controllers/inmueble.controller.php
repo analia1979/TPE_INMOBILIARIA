@@ -44,7 +44,7 @@ class inmuebleController
         $idInmueble = $params[':ID'];
         $inmueble = $this->model->getInmueble($idInmueble);
         $inmuebles = $this->model->getAll();
-        // $categorias = $this->modelCategoria->getAll();
+
         if ($inmueble) // si existe el inmueble
             $this->view->showInmueble($inmueble, $inmuebles);
         else

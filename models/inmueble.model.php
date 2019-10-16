@@ -15,7 +15,8 @@ class InmuebleModel
      */
     public function getAll()
     {
-        $query = $this->db->prepare('SELECT * FROM inmueble ORDER BY id_inmueble ASC');
+        $query = $this->db->prepare('SELECT inmueble.id_inmueble, inmueble.descripcion as descripcion,precio,categoria.descripcion as tipo,inmueble.idCategoria as idCategoria,vendida
+        FROM inmueble join categoria on idCategoria=id_categoria ORDER BY id_inmueble ASC');
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_OBJ);
@@ -62,20 +63,22 @@ class InmuebleModel
     }
 
     /**
-     * Actualiza la tarea y la marca finalizada.
+     * Actualiza el inmueble y la marca vendida.
      */
-    function end($idInmueble)
+    public function updateVendida($idInmueble)
     {
         $query = $this->db->prepare('UPDATE inmueble SET vendida = 1 WHERE id_inmueble = ?');
         $query->execute([$idInmueble]);
     }
-    function getInmueblePorCategoria($idCategoria)
+    /** Retorna los inmuebles que pertencen a una categoria */
+    public function getInmueblePorCategoria($idCategoria)
     {
 
-        $query = $this->db->prepare('SELECT * FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
+        $query = $this->db->prepare('SELECT id_inmueble,inmueble.descripcion, precio,inmueble.idCategoria,categoria.descripcion as tipo FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
         $query->execute(array($idCategoria));
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+    /**Retorna la cantidad de inmuebles que pertenecen a una categoria dada */
     public function getInmuebleCategoria($idCategoria)
     {
         $query = $this->db->prepare('SELECT count(id_inmueble) as cantidad from inmueble where idCategoria=?');
