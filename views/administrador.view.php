@@ -46,12 +46,12 @@ class AdministradorView
         $this->smarty->display('template/mostrarInmueble.tpl');
     }
 
-    function cargarInmueble($inmueble)
+    function cargarInmueble($inmueble, $imagenes)
     {
 
         //  $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
-
+        $this->smarty->assign('imagenes', $imagenes);
         $this->smarty->display('template/editarInmueble.tpl');
     }
 

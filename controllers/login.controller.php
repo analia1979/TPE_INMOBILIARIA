@@ -28,6 +28,33 @@ class LoginController
         // se las paso a la vista
         $this->view->showLogin($categorias);
     }
+    public function registrarUsuario()
+    {
+
+        $categorias = $this->modelCategoria->getAll();
+
+        //obtengo el mail y password que enviaron desde el formulario
+
+        $email = $_POST['username'];
+        $password = $_POST['password'];
+
+        $user = $this->modelUsuario->getUsuario($email);
+
+        if (empty($user)) {
+            //no esta registrado un usuario en la bd -> lo registro
+
+            $clave = md5($password); //encriptamos la clave
+            $usuarioID = $this->modelUsuario->addUsuario($email, $clave);
+            $usuario = $this->modelUsuario->getUsuarioID($usuarioID);
+            //inicio sesion y logueo al usuario
+            $this->authHelpers->login($usuario);
+            header("Location:" . ADMIN);
+        } else if (!empty($user)) {
+
+            $this->view->showLogin($categorias, "El usuario ya existe");
+        }
+    }
+
     public function verificarUsuario()
     {
         $categorias = $this->modelCategoria->getAll();
@@ -39,13 +66,15 @@ class LoginController
 
         $user = $this->modelUsuario->getUsuario($email);
 
+
         if (!empty($user) && password_verify($password, $user->password)) {
             //encontro un usuario en la bd y la clave coincide
             //inicio la sesion y logueo al usuario
 
             $this->authHelpers->login($user);
             header('Location: admin');
-        } else {
+        } else if (empty($user)) {
+
 
             $this->view->showLogin($categorias, "Login incorrecto");
         }

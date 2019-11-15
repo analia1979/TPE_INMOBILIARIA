@@ -4,7 +4,7 @@
     <h1>Inmobiliaria</h1>
         <div class="row">
             <div class="col">
-                <form action="nueva" method="POST">
+                <form action="nueva" method="POST" enctype="multipart/form-data">
                     <div class="col form-group">
                             <label>Precio:</label><input name="precio" type="number" class="form-control" id="precio">
                             <label>Categorias:</label><select name="categoria" id="categoria" class="form-control">
@@ -13,7 +13,11 @@
                             {/foreach}
                             </select>
                             <label>Descripcion</label>
-                            <textarea name="descripcion" class="form-control" rows="3" id="descripcion"></textarea>
+                            <textarea name="descripcion" class="form-control" rows="3" 
+                            id="descripcion"></textarea>
+                            <div class="col form-group">
+                             <input type="file" name="imagenes[]" id="imagenes" multiple>
+                             </div>
                             </div>
 
                     <div class="col">               
@@ -28,7 +32,7 @@
             {foreach $inmuebles as $inmueble}
                 <div class="col-md-3">     
                                         
-                        <img src="img/imagen2.jpg" class="img-fluid" alt="fondo">
+                        <img src={$inmueble->path} class="img-fluid" alt="fondo">
                         <div class="row">
                             <div class="col">
                                 <p>{$inmueble->tipo}</p>

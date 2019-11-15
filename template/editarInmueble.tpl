@@ -4,7 +4,10 @@
 <h1>Inmobiliaria</h1>
     <div class="row">
         <div class="col">
-            <img src="img/casa.jpg" class="img-fluid">
+           {foreach $imagenes as $imagen}
+             <img src={$imagen->path} class="img-fluid">    
+           {/foreach}
+           
         </div>
         <div class="col">
             <form action="editar" method="POST">

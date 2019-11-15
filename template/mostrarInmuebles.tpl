@@ -12,7 +12,11 @@
               {else}
                 <p>EN VENTA</p>
               {/if}
-              <img src="img/imagen2.jpg" class="img-fluid" alt="fondo">
+              {if ($inmueble->path)}
+                  <img src={$inmueble->path} class="img-fluid" alt="fondo">
+              {else}    
+                  <img src="" class="img-fluid" alt="no hay imagen">
+              {/if}
               <div class="row">
                 <div class="col-md">
                 <p>{$inmueble->descripcion}</p></div>

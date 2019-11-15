@@ -2,6 +2,7 @@
 include_once('models/inmueble.model.php');
 include_once('views/administrador.view.php');
 include_once('models/categorias.model.php');
+include_once('models/imagen.model.php');
 include_once('helpers/auth.helper.php');
 
 class AdministradorController
@@ -9,14 +10,16 @@ class AdministradorController
 
     private $modelInmueble;
     private $modelCategoria;
+    private $modelImagen;
     private $view;
 
     public function __construct()
     {  // barrera para usuario logueado
         $authHelper = new AuthHelper();
         $authHelper->checkLoggedIn();
-        $this->modelInmueble = new inmuebleModel();
-        $this->modelCategoria = new categoriasModel();
+        $this->modelInmueble = new InmuebleModel();
+        $this->modelImagen = new ImagenModel();
+        $this->modelCategoria = new CategoriasModel();
         $categorias = $this->modelCategoria->getAll();
         $this->view = new administradorView($categorias);
     }
@@ -56,10 +59,28 @@ class AdministradorController
         $precio = $_POST['precio'];
         $descripcion = $_POST['descripcion'];
         $categoria = $_POST['categoria'];
-        //    var_dump($_POST);
+        $imagenes = $_FILES; // guarda las imagenes para pasar por parametro;
+        //  var_dump($imagenes);
+        //die();
 
         if (!empty($precio) && !empty($descripcion) && !empty($categoria)) {
-            $this->modelInmueble->save($precio, $descripcion, $categoria);
+            //guardo el producto y luego me retorna el id para guadar las imagenes de ese producto
+            $inmuebleId = $this->modelInmueble->save($precio, $descripcion, $categoria);
+
+            //debo recorrer el array de imagenes para guardarlas en el modelo imagenes
+            foreach ($imagenes['imagenes']['tmp_name'] as $key => $tmp_name) {
+                // var_dump($key);
+                //die();
+                if ($_FILES['imagenes']['type'][$key] == 'image/jpg' || $_FILES['imagenes']['type'][$key] == 'image/png' || $_FILES['imagenes']['type'][$key] == 'image/jpeg') {
+
+                    $source = $tmp_name; // me guardo el paht que asigna $_files
+
+                    $name = $_FILES['imagenes']['name'][$key]; // me guardo el nombre del archivo
+
+
+                    $this->modelImagen->addImagen($inmuebleId, $name, $source);
+                }
+            }
             header("Location: " . ADMIN);
         } else {
             $this->view->showError("Faltan datos obligatorios");
@@ -70,7 +91,10 @@ class AdministradorController
     {
         $idinmueble = $params[':ID'];
         $inmueble = $this->modelInmueble->getInmueble($idinmueble);
-        $this->view->cargarInmueble($inmueble);
+        if ($inmueble) {
+            $imagenes = $this->modelImagen->getImagenPorInmueble($idinmueble);
+            $this->view->cargarInmueble($inmueble, $imagenes);
+        }
     }
     public function editarInmueble()
     {

@@ -11,6 +11,10 @@ class AuthHelper
         session_start();
         $_SESSION['ID_USER'] = $user->id;
         $_SESSION['USERNAME'] = $user->email;
+        $_SESSION['ADMIN'] = $user->admin;
+        //var_dump($_SESSION);
+        // die();
+        //guardar el tipodeUsuario
     }
 
     public function logout()

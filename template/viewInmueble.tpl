@@ -3,8 +3,10 @@
 <h1>Inmobiliaria</h1>
   <div class="row">
         <div class="col-4">    
-             
-             <img src="img/imagen2.jpg" class="img-fluid" alt="fondo">
+          {foreach $imagenes as $imagen}
+             <img src={$imagen->path} class="img-fluid" alt="fondo">
+          {/foreach}  
+            
 
 
         </div>

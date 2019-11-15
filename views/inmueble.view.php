@@ -35,12 +35,12 @@ class inmuebleView
     /**
      * Construye el html que permite visualizar el detalle de un inmueble determinado.
      */
-    function showInmueble($inmueble, $inmuebles)
+    function showInmueble($inmueble, $inmuebles, $imagenes)
     {
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
         $this->smarty->assign('inmuebles', $inmuebles);
-        //   $this->smarty->assign('categorias', $categorias);
+        $this->smarty->assign('imagenes', $imagenes);
         $this->smarty->display('template/viewInmueble.tpl');
     }
 

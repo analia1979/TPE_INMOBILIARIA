@@ -4,17 +4,19 @@ include_once('views/inmueble.view.php');
 include_once('models/categorias.model.php');
 
 
-class inmuebleController
+class InmuebleController
 {
     private $model;
     private $modelCategoria;
+    private $modelImagen;
     private $view;
 
     public function __construct()
     {
 
-        $this->model = new inmuebleModel();
-        $this->modelCategoria = new categoriasModel();
+        $this->model = new InmuebleModel();
+        $this->modelCategoria = new CategoriasModel();
+        $this->modelImagen = new ImagenModel();
         $categorias = $this->modelCategoria->getAll();
 
         $this->view = new inmuebleView($categorias);
@@ -45,9 +47,11 @@ class inmuebleController
         $inmueble = $this->model->getInmueble($idInmueble);
         $inmuebles = $this->model->getAll();
 
-        if ($inmueble) // si existe el inmueble
-            $this->view->showInmueble($inmueble, $inmuebles);
-        else
+
+        if ($inmueble) { // si existe el inmueble
+            $imagenes = $this->modelImagen->getImagenPorInmueble($idInmueble);
+            $this->view->showInmueble($inmueble, $inmuebles, $imagenes);
+        } else
             $this->view->showError('El inmueble no existe');
     }
     public function showInmuebles()

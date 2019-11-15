@@ -1,6 +1,6 @@
 <?php
 
-class categoriasModel
+class CategoriasModel
 {
 
     private $db;

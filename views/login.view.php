@@ -20,6 +20,7 @@ class LoginView
     public function showLogin($categorias, $error = NULL)
     {
         $this->smarty->assign('titulo', 'Iniciar Sesión');
+        $this->smarty->assign('tituloRegistro', 'Registrarse');
         $this->smarty->assign('error', $error);
         $this->smarty->assign('categorias', $categorias);
         $this->smarty->display('template/login.tpl');

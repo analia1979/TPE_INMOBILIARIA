@@ -23,17 +23,18 @@
     $r->setDefaultRoute("inmuebleController", "showInicio");
 
     // rutas
-    $r->addRoute("inicio", "GET", "inmuebleController", "showInicio");
+    $r->addRoute("inicio", "GET", "InmuebleController", "showInicio");
     $r->addRoute("login", "GET", "LoginController", "mostrarLogin");
     $r->addRoute("verificarUsuario", "POST", "LoginController", "verificarUsuario");
+    $r->addRoute('registrarUsuario', "POST", "LoginController", "registrarUsuario");
     $r->addRoute("admin", "GET", "AdministradorController", "showInmuebles");
     $r->addRoute("logout", "GET", "LoginController", "logout");
     $r->addRoute("editar/:ID", "GET", "AdministradorController", "cargarInmueble");
     $r->addRoute("editar", "POST", "AdministradorController", "editarInmueble");
     $r->addRoute("eliminar/:ID", "GET", "AdministradorController", "deleteInmueble");
-    $r->addRoute("propiedades", "GET", "inmuebleController", "showInmuebles");
+    $r->addRoute("propiedades", "GET", "InmuebleController", "showInmuebles");
     $r->addRoute("inmueblescategoria/:ID", "GET", "inmuebleController", "showInmuebleCategoria");
-    $r->addRoute("inmueble/:ID", "GET", "inmuebleController", "showInmueble");
+    $r->addRoute("inmueble/:ID", "GET", "InmuebleController", "showInmueble");
     $r->addRoute("nueva", "POST", "AdministradorController", "addInmueble");
     $r->addRoute("verCat", "GET", "AdministradorController", "showCategorias");
     $r->addRoute("nuevaCat", "POST", "AdministradorController", "addCategorias");
