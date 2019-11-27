@@ -43,7 +43,7 @@
                                 {/if} 
                             </div>
                             <div class="col"> 
-                                <small><a href="inmueble/{$inmueble->id_inmueble}">VER</a></small>
+                                <small><a href="verInmueble/{$inmueble->id_inmueble}">VER</a></small>
                                 <small><a href="editar/{$inmueble->id_inmueble}">EDITAR</a></small>
                                 <small><a href="vendida/{$inmueble->id_inmueble}">VENDIDO</a></small>
                                 <small><a href="eliminar/{$inmueble->id_inmueble}">ELIMINAR</a></small> 

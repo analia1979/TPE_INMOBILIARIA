@@ -15,7 +15,7 @@ class InmuebleModel
      */
     public function getAll()
     {
-        $query = $this->db->prepare('SELECT inmueble.id_inmueble, inmueble.descripcion as descripcion,precio,categoria.descripcion as tipo,inmueble.idCategoria as idCategoria,vendida ,path FROM inmueble JOIN categoria on idCategoria=id_categoria LEFT JOIN imagen on id_inmueble=idInmueble_fk
+        $query = $this->db->prepare('SELECT inmueble.id_inmueble, inmueble.descripcion as descripcion,precio,categoria.descripcion as tipo,inmueble.idCategoria as idCategoria,vendida, imagen.path FROM inmueble JOIN categoria on idCategoria=id_categoria LEFT JOIN imagen on id_inmueble=idInmueble_fk
         group by id_inmueble
          ORDER BY id_inmueble ASC');
         $query->execute();
@@ -76,7 +76,9 @@ class InmuebleModel
     public function getInmueblePorCategoria($idCategoria)
     {
 
-        $query = $this->db->prepare('SELECT id_inmueble,inmueble.descripcion, precio,inmueble.idCategoria,categoria.descripcion as tipo,vendida FROM inmueble join categoria on  idCategoria=id_Categoria where idCategoria=?');
+        $query = $this->db->prepare('SELECT id_inmueble,inmueble.descripcion, precio,inmueble.idCategoria,categoria.descripcion as tipo,vendida, imagen.path FROM inmueble join categoria on  idCategoria=id_Categoria LEFT JOIN imagen on id_inmueble=idInmueble_fk              
+        where idCategoria=?
+        group by id_inmueble ');
         $query->execute(array($idCategoria));
         return $query->fetchAll(PDO::FETCH_OBJ);
     }

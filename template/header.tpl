@@ -7,11 +7,18 @@
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            
             <link rel="stylesheet" href="css/style.css">
                      <title>{$titulo}</title>
         </head>
- <body> 
-
+  {if isset($user)}  
+ <body id="user" data-id={$user->id} data-admin="{$user->admin}"> 
+ {else}
+  <body id="user" data-id=-1 data-admin=-1>
+  {/if} 
+  
+ 
 <nav class="navbar navbar-expand-lg navbar-light botonera">
   
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,21 +46,22 @@
          {/foreach}  
        </div>   
       </li>
-      {if isset($userName)}
+    
+      {if isset($user) && isset($user->email) && ($user->admin==1) }
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ADMINISTRAR</a>
               <div class="dropdown-menu " aria-labelledby="navbarDropdown">         
                   <a class="nav-link" href="admin">PROPIEDADES<span class="sr-only">(current)</span></a>
                   <a class="nav-link" href="verCat">CATEGORIAS<span class="sr-only">(current)</span></a>       
-                   
+                   <a class="nav-link" href="usuarios">USUARIOS<span class="sr-only">(current)</span></a>     
           </li>
       {/if}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       
-    {if isset($userName)}
+    {if isset($user->email)}
       <div class="navbar-nav ml-auto">
-            <span class="navbar-text">{$userName}</span>
+            <span class="navbar-text">{$user->email}</span>
             <a class="btn my-2 my-sm-0 btn-secondary" href="logout" role="button">LOGOUT</a>
       </div>
     {else}

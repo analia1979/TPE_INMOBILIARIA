@@ -43,11 +43,12 @@ class LoginController
         if (empty($user)) {
             //no esta registrado un usuario en la bd -> lo registro
 
-            $clave = md5($password); //encriptamos la clave
+            $clave = password_hash($password, PASSWORD_DEFAULT); //encriptamos la clave
             $usuarioID = $this->modelUsuario->addUsuario($email, $clave);
             $usuario = $this->modelUsuario->getUsuarioID($usuarioID);
             //inicio sesion y logueo al usuario
             $this->authHelpers->login($usuario);
+
             header("Location:" . ADMIN);
         } else if (!empty($user)) {
 
@@ -72,12 +73,16 @@ class LoginController
             //inicio la sesion y logueo al usuario
 
             $this->authHelpers->login($user);
-            header('Location: admin');
+            if ($user->admin == 1)
+                header("Location:" . ADMIN);
+            else
+                header("Location:" . VER);
         } else if (empty($user)) {
 
 
             $this->view->showLogin($categorias, "Login incorrecto");
         }
+        $this->view->showLogin($categorias, "clave no coincide");
     }
     public function logout()
     {

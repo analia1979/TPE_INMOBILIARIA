@@ -3,6 +3,8 @@ include_once('models/inmueble.model.php');
 include_once('views/administrador.view.php');
 include_once('models/categorias.model.php');
 include_once('models/imagen.model.php');
+include_once('models/usuario.model.php');
+include_once('models/comentario.model.php');
 include_once('helpers/auth.helper.php');
 
 class AdministradorController
@@ -11,17 +13,24 @@ class AdministradorController
     private $modelInmueble;
     private $modelCategoria;
     private $modelImagen;
+    private $modelUsuario;
+    private $modelComentario;
     private $view;
+    private $authHelper;
+    private $user;
 
     public function __construct()
     {  // barrera para usuario logueado
-        $authHelper = new AuthHelper();
-        $authHelper->checkLoggedIn();
+        $this->authHelper = new AuthHelper();
+        $this->authHelper->checkLoggedIn();
+        $this->user = $this->authHelper->getUsuario();
         $this->modelInmueble = new InmuebleModel();
         $this->modelImagen = new ImagenModel();
         $this->modelCategoria = new CategoriasModel();
+        $this->modelUsuario = new UsuarioModel();
+        $this->modelComentario = new ComentarioModel();
         $categorias = $this->modelCategoria->getAll();
-        $this->view = new administradorView($categorias);
+        $this->view = new administradorView($categorias, $this->user);
     }
 
 
@@ -32,21 +41,29 @@ class AdministradorController
 
     public function showInmuebles()
     {
-        // obtengo inmuebles del model
-        $inmuebles = $this->modelInmueble->getAll();
+        //solo si es admin puede ver sino poner barrera
 
-        // se las paso a la vista
-        $this->view->showInmuebles($inmuebles);
+        // obtengo inmuebles del model
+
+        if ($this->user->admin == 1) {
+            $inmuebles = $this->modelInmueble->getAll();
+
+            // se las paso a la vista
+            $this->view->showInmuebles($inmuebles);
+        } else
+            header('Location:' . VER);
     }
 
-    public function showInmueble($inmueble)
-    {
-        $inmueble = $this->modelInmueble->get($inmueble);
-        // $categorias = $this->modelCategoria->getAll();
 
-        if ($inmueble) // si existe el inmueble
-            $this->view->showInmueble($inmueble);
-        else
+    public function showInmueble($params = null)
+    {
+        $idInmueble = $params[':ID'];
+        $inmueble = $this->modelInmueble->getInmueble($idInmueble);
+
+        if ($inmueble) { // si existe el inmueble
+            $imagenes = $this->modelImagen->getImagenPorInmueble($idInmueble);
+            $this->view->showInmueble($inmueble, $imagenes);
+        } else
             $this->view->showError('El inmueble no existe');
     }
 
@@ -135,9 +152,11 @@ class AdministradorController
     public function showCategorias()
     {
 
-        $inmuebles = $this->modelInmueble->getAll();
+        if ($this->user->admin == 1) {
+            $inmuebles = $this->modelInmueble->getAll();
 
-        $this->view->showCategorias($inmuebles);
+            $this->view->showCategorias($inmuebles);
+        } else    header('Location:' . VER);
     }
 
     public function addCategorias()
@@ -155,10 +174,12 @@ class AdministradorController
     public function editarCategoria($params = null)
     {
 
-        $inmuebles = $this->modelInmueble->getAll();
-        $id_categoria = $params[':ID'];
-        $categoria = $this->modelCategoria->get($id_categoria);
-        $this->view->showEditarCategoria($inmuebles, $categoria);
+        if ($this->user->admin == 1) {
+            $inmuebles = $this->modelInmueble->getAll();
+            $id_categoria = $params[':ID'];
+            $categoria = $this->modelCategoria->get($id_categoria);
+            $this->view->showEditarCategoria($inmuebles, $categoria);
+        } else header('Location:' . VER);
     }
 
     public function modificarCategoria()
@@ -174,19 +195,57 @@ class AdministradorController
     }
     public function eliminarCategoria($params = null)
     {
-        $idCategoria = $params[':ID'];
 
-        if (isset($idCategoria)) {
-            $cantidadInmuebles = $this->modelInmueble->getInmuebleCategoria($idCategoria);
+        if ($this->user->admin == 1) {
+            $idCategoria = $params[':ID'];
 
-            if ($cantidadInmuebles->cantidad > 0) { //si hay inmuebles asociados no puedo borrar
+            if (isset($idCategoria)) {
+                $cantidadInmuebles = $this->modelInmueble->getInmuebleCategoria($idCategoria);
 
-                $this->view->showError('NO SE PUEDE BORRAR LA CATEGORIA HAY INMUEBLES ASOCIADOS A LA CATEGORIA.');
-            } else {
-                $this->modelCategoria->delete($idCategoria);
+                if ($cantidadInmuebles->cantidad > 0) { //si hay inmuebles asociados no puedo borrar
 
-                header("Location: " . ADMINCAT);
+                    $this->view->showError('NO SE PUEDE BORRAR LA CATEGORIA HAY INMUEBLES ASOCIADOS A LA CATEGORIA.');
+                } else {
+                    $this->modelCategoria->delete($idCategoria);
+
+                    header("Location: " . ADMINCAT);
+                }
             }
+        } else header('Location:' . VER);
+    }
+    public function showUsuarios()
+    {
+
+        if ($this->user->admin == 1) {
+            $usuarios = $this->modelUsuario->getAll();
+
+            // se las paso a la vista
+            $this->view->showUsuarios($usuarios);
+        } else
+            header('Location:' . VER);
+    }
+    public function actualizarUsuario($params = null)
+    {
+
+        $idUsuario = $params[':ID'];
+        $user = $this->modelUsuario->getUsuarioID($idUsuario);
+        if ($user->admin == 1) {
+            $this->modelUsuario->updateUsuario($user->id, 0);
+        } else {
+            $this->modelUsuario->updateUsuario($user->id, 1);
         }
+        header('Location:' . USUARIOS);
+    }
+    public function eliminarUsuario($params = null)
+    {
+
+        $idUsuario = $params[':ID'];
+        //primero debo verificar que el usuario no tenga comentarios asociados
+        $cantComentarios = $this->modelComentario->getComentariosPorUsuario($idUsuario);
+        if ($cantComentarios->cantidad == 0) {
+            $this->modelUsuario->deleteUsuario($idUsuario);
+            header('Location:' . USUARIOS);
+        } else
+            $this->view->showError('El usuario no se puede borrar porque tiene comentarios asociados');
     }
 }

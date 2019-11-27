@@ -31,4 +31,22 @@ class UsuarioModel
         $query->execute(array($email, $clave, 0));
         return $this->db->lastInsertId();
     }
+    public function getAll()
+    {
+        $query = $this->db->prepare('SELECT * FROM usuario');
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    public function updateUsuario($idUsuario, $tipoUsuario)
+    {
+
+        $query = $this->db->prepare('UPDATE usuario SET admin = ? WHERE id = ?');
+        $query->execute(array($tipoUsuario, $idUsuario));
+    }
+    public function deleteUsuario($idUsuario)
+    {
+
+        $query = $this->db->prepare('DELETE FROM usuario where id=?');
+        $query->execute(array($idUsuario));
+    }
 }

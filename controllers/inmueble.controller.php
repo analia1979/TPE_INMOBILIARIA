@@ -9,6 +9,7 @@ class InmuebleController
     private $model;
     private $modelCategoria;
     private $modelImagen;
+    private $modelComentario;
     private $view;
 
     public function __construct()
@@ -17,6 +18,7 @@ class InmuebleController
         $this->model = new InmuebleModel();
         $this->modelCategoria = new CategoriasModel();
         $this->modelImagen = new ImagenModel();
+        $this->modelComentario = new ComentarioModel();
         $categorias = $this->modelCategoria->getAll();
 
         $this->view = new inmuebleView($categorias);
@@ -50,7 +52,10 @@ class InmuebleController
 
         if ($inmueble) { // si existe el inmueble
             $imagenes = $this->modelImagen->getImagenPorInmueble($idInmueble);
-            $this->view->showInmueble($inmueble, $inmuebles, $imagenes);
+            $promedio = $this->modelComentario->getPromedio($idInmueble);
+
+            $prom = number_format($promedio->promedio, 2, ',', ' ');
+            $this->view->showInmueble($inmueble, $inmuebles, $imagenes, $prom);
         } else
             $this->view->showError('El inmueble no existe');
     }

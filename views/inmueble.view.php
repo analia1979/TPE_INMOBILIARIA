@@ -9,10 +9,12 @@ class inmuebleView
     public function __construct($categorias)
     {
         $authHelper = new AuthHelper();
-        $userName = $authHelper->getLoggedUserName();
+        $user = $authHelper->getUsuario();
+        // $admin = $authHelper->isAdmin();
         $this->smarty = new Smarty();
         $this->smarty->assign('basehref', BASE_URL);
-        $this->smarty->assign('userName', $userName);
+        $this->smarty->assign('user', $user);
+        //$this->smarty->assign('admin', $admin);
         $this->smarty->assign('categorias', $categorias);
     }
 
@@ -35,12 +37,13 @@ class inmuebleView
     /**
      * Construye el html que permite visualizar el detalle de un inmueble determinado.
      */
-    function showInmueble($inmueble, $inmuebles, $imagenes)
+    function showInmueble($inmueble, $inmuebles, $imagenes, $promedio)
     {
         $this->smarty->assign('titulo', "Inmobiliaria");
         $this->smarty->assign('inmueble', $inmueble);
         $this->smarty->assign('inmuebles', $inmuebles);
         $this->smarty->assign('imagenes', $imagenes);
+        $this->smarty->assign('promedio', $promedio);
         $this->smarty->display('template/viewInmueble.tpl');
     }
 

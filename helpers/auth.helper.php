@@ -9,11 +9,11 @@ class AuthHelper
     {
         // INICIO LA SESSION Y LOGUEO AL USUARIO
         session_start();
-        $_SESSION['ID_USER'] = $user->id;
-        $_SESSION['USERNAME'] = $user->email;
-        $_SESSION['ADMIN'] = $user->admin;
-        //var_dump($_SESSION);
-        // die();
+        $_SESSION['USER'] = $user;
+        //$_SESSION['USERNAME'] = $user->email;
+        //$_SESSION['ADMIN'] = $user->admin;
+
+
         //guardar el tipodeUsuario
     }
 
@@ -26,19 +26,44 @@ class AuthHelper
     public function checkLoggedIn()
     {
         session_start();
-        if (!isset($_SESSION['ID_USER'])) {
+        if (!isset($_SESSION['USER'])) {
             header('Location: ' . LOGIN);
             die();
         }
     }
+    // public function isAdmin() //verificar si el que esta logueado es admin
+    // {
+    //     if (session_status() != PHP_SESSION_ACTIVE) {
+    //         session_start();
+    //     }
+    //     if (isset($_SESSION['USERNAME']))
 
-    public function getLoggedUserName()
+    //         return $_SESSION['ADMIN'];
+
+
+    //     return NULL;
+    // }
+    public function getUsuario() //verificar 
     {
-        //echo $_SESSION['USERNAME'];
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['USERNAME'])) return $_SESSION['USERNAME'];
-        else return null;
+        if (isset($_SESSION['USER']))
+
+            return $_SESSION['USER'];
+
+
+        return NULL;
     }
+    // public function getLoggedUserName()
+    // {
+
+    //     if (session_status() != PHP_SESSION_ACTIVE) {
+    //         session_start();
+    //     }
+    //     if (isset($_SESSION['USERNAME']))
+
+    //         return $_SESSION['USERNAME'];
+    //     else return null;
+    // }
 }
